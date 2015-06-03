@@ -30,6 +30,7 @@ import re
 from struct import Struct
 import subprocess
 from lzss import decompressor
+from urllib.request import urlopen
 
 
 class TemporaryDirectory(object):
@@ -166,12 +167,12 @@ def get_decryption_info(plist_obj, output_dir, url=None):
     print("<Info> iOS version {0}, build {1} {2}".format(version, build_train, build_number))
 
     if url is None:
-        url = 'http://theiphonewiki.com/wiki/index.php?title={0}_{1}_({2})'.format(build_train.translate({0x20:'_'}), build_number, product_name.translate({0x20:'_'}))
+        url = 'https://www.theiphonewiki.com/wiki/{0}_{1}_({2})'.format(build_train.translate({0x20:'_'}), build_number, product_type)
 
     print("<Info> Downloading decryption keys from '{0}'...".format(url))
 
     try:
-        htmldoc = lxml.html.parse(url)
+        htmldoc = lxml.html.parse(urlopen(url))
     except IOError as e:
         print("<Error> {1}".format(url, e))
         return None
