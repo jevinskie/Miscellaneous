@@ -39,7 +39,7 @@ class TemporaryDirectory(object):
         pass
 
     def __enter__(self):
-        self._tempdir = mkdtemp(dir=self._dir)
+        self._tempdir = mkdtemp()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
